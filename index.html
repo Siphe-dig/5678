@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffc0cb; /* Pink */
+            color: #ff0000; /* Red */
+        }
+        .container {
+            margin-top: 50px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .question-box {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #ff0000; /* Red */
+            border-radius: 10px;
+            background: #e6cce6; /* Light Purple */
+        }
+        button {
+            background-color: #ff0000; /* Red */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #800080; /* Purple */
+        }
+        .message-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            background: #ffe6ea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Valentine's Quiz 💖</h1>
+        <p>Answer these questions and discover something special at the end! 😊</p>
+        <div id="quiz" class="question-box">
+            <p id="question-text"></p>
+            <div id="options"></div>
+        </div>
+        <div id="score" style="display: none;" class="question-box">
+            <h2>Your Score: <span id="score-text"></span>/5</h2>
+            <button onclick="showFinalQuestion()" id="continue-btn">Continue</button>
+            <button onclick="resetQuiz()" id="retry-btn" style="display: none;">Try Again</button>
+        </div>
+        <div id="result" style="display: none;" class="question-box">
+            <h2>Final Question! 😍</h2>
+            <p>Will you be my Valentine? 💕</p>
+            <button onclick="answer('yes')">Yes! 💘</button>
+            <button onclick="answer('no')">No 😢</button>
+        </div>
+        <div id="message" style="display: none;" class="message-box">
+            <h2>My pookie!❤️</h2>
+            <p>hey baby,You being my boyfriend means more than this entire universe to me but I just had to ask you to be my valentine jus tas a reminder that you're still mine no matter the occassion!. I wish we could spend this valentine's Day together but we can't because you're far, but don't let this make you feel loved any less. I love you to infinity and beyond my pookie💖 thank you for EVERYTHINGGGGGGG! 💖</p>
+        </div>
+    </div>
+
+    <script>
+        let questions = [
+            { text: "What days are for Siphe", options: ["Fridays", "Tuesdays", "Sundays", "Wednesdays"], correct: "Sundays" },
+            { text: "What's the first thing I ever gave to you?", options: ["a chocolate", "my number", "a hug", "rounds"], correct: "a chocolate" },
+            { text: "What's my favourite thing to do with you?", options: ["going out", "kissing", "netflix and cuddle", "cooking for you"], correct: "netflix and cuddle" },
+            { text: "What’s my favourite date we've been on?", options: ["the day we watched Moana", "Chris Brown concert", "Dinner and Inn and Out", " family bathroom freaky"], correct: "the day we watched Moana" },
+            { text: "What’s my most favourite thing?", options: ["KFC", "KitKat", "Fanta Grape", "that woolworths desert"], correct: "KitKat" }
+        ];
+        
+        let questionIndex = 0;
+        let score = 0;
+        
+        function loadQuestion() {
+            if (questionIndex < questions.length) {
+                document.getElementById('question-text').innerText = (questionIndex + 1) + ". " + questions[questionIndex].text;
+                let optionsHTML = "";
+                questions[questionIndex].options.forEach(option => {
+                    optionsHTML += `<button onclick="checkAnswer('${option}')">${option}</button>`;
+                });
+                document.getElementById('options').innerHTML = optionsHTML;
+            } else {
+                document.getElementById('quiz').style.display = 'none';
+                document.getElementById('score').style.display = 'block';
+                document.getElementById('score-text').innerText = score;
+                
+                if (score < 3) {
+                    document.getElementById('continue-btn').style.display = 'none';
+                    document.getElementById('retry-btn').style.display = 'inline-block';
+                }
+            }
+        }
+        
+        function checkAnswer(selected) {
+            if (selected === questions[questionIndex].correct) {
+                score++;
+            }
+            questionIndex++;
+            loadQuestion();
+        }
+        
+        function showFinalQuestion() {
+            document.getElementById('score').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        function answer(response) {
+            if (response === 'yes') {
+                alert('Yay! Can’t wait for our Valentine’s date! ❤️🥰');
+                document.getElementById('result').style.display = 'none';
+                document.getElementById('message').style.display = 'block';
+            } else {
+                alert('now why would you pick this? smh');
+            }
+        }
+        
+        function resetQuiz() {
+            questionIndex = 0;
+            score = 0;
+            document.getElementById('score').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block';
+            loadQuestion();
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
